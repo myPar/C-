@@ -1,24 +1,17 @@
-namespace cards {
+namespace cards;
+using enums;
 
-    public record Card  // immutable object
+public record Card  // immutable object
+{
+    public CardColor Color {get;}
+
+    public Card(CardColor c) 
     {
-        private CardColor Color {get;}
-        public Card(CardColor c) {
-            Color = c;
-        }
-        public CardColor getColor() {
-            return Color;
-        }
-
-        public override string ToString()
-        {
-            return Color == CardColor.Black ? "♠️" : "♦️";
-        }
+        Color = c;
     }
 
-    public enum CardColor
+    public override string ToString()
     {
-        Red, 
-        Black,
+        return Color == CardColor.BLACK ? "♠️" : "♦️";
     }
 }

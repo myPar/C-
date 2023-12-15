@@ -1,41 +1,31 @@
 using StrategyLib;
-using cards;
-using System;
+using constants;
+using enums;
+using interfaces;
+using deck;
+using shufflers;
+using experiment;
 
 class MainClass
 {
-    private static Card[] CreateDeck()
+    static void Main(string[] args) 
     {
-        CardColor[] colors = {CardColor.Red, CardColor.Black};
-        Card[] deck = new Card[36];
-        int index = 0;
-
-        foreach (var color in colors)
-        {
-            for (int i = 0; i <= 17; i++)
-            {
-                deck[index] = new Card(color);
-                index++;
-            }
-        }
-
-        return deck;
-    }
-
-    static void Main(string[] args) {
         int successCount = 0;
-        int experimentsCount = 1000000;
-        Card[] deck = CreateDeck();
+        Deck deck = new();
 
         ICardPickStrategy strategy1 = new SimpleStrategy();
         ICardPickStrategy strategy2 = new SimpleStrategy();
+        IDeckShuffler shuffler = new SimpleDeckShuffler();
 
-        for (int i = 0; i < experimentsCount; i++) {
-            Experiment.ExperimentResult result = Experiment.RunExperiment(deck, strategy1, strategy2);
-            if (result == Experiment.ExperimentResult.SUCCESS) {
+        for (int i = 0; i < Constants.EXPERIMENTS_COUNT; i++) 
+        {
+            ExperimentResult result = Experiment.RunExperiment(deck, shuffler, strategy1, strategy2);
+            
+            if (result == ExperimentResult.SUCCESS) 
+            {
                 successCount++;
             }
         }
-        Console.WriteLine($"{(double)successCount / experimentsCount}");
+        Console.WriteLine($"{(double)successCount / Constants.EXPERIMENTS_COUNT}");
     }
 }
